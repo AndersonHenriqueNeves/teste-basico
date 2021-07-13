@@ -27,7 +27,7 @@ class ProfessorController {
         return res.status(400).json({ error: 'Professor já cadastrado'});
     }
 
-    if(req.body.id_sala) {
+    if(req.body.id_sala && req.body.id_sala != "Sem sala") {
         const verificandoSala = await Sala.findOne(
             {
                 where: {
@@ -57,7 +57,18 @@ class ProfessorController {
   }
 
   async index(req, res) {
-    const professores = await Professor.findAll();
+    const professores = await Professor.findAll({
+        order: [
+          'nome'
+        ],
+        include: [
+            {
+              model: Sala,
+              as: 'sala',
+              attributes: ['id', 'nome_sala'],
+            },
+          ]
+      });
 
     return res.json(professores);
   }
@@ -99,12 +110,23 @@ class ProfessorController {
           }
     }
 
-    if(req.body.id_sala) {
+    if(req.body.id_sala == undefined) {
+        await professor.update({
+            nome: req.body.nome
+        });
+
+        return res.status(200).send();
+    }
+
+    if(req.body.id_sala != "Sem sala") {
         const sala = await Sala.findByPk(req.body.id_sala);
 
         if(!sala) {
           return res.status(400).json({error: 'Sala não encontrada'});
         }
+        
+    } else {
+        req.body.id_sala = null;
     }
 
     await professor.update(req.body);

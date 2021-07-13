@@ -34,7 +34,11 @@ class SalaController {
   }
 
   async index(req, res) {
-    const salas = await Sala.findAll();
+    const salas = await Sala.findAll({
+      order: [
+        'nome_sala'
+      ],
+    });
 
     return res.json(salas);
   }
@@ -60,6 +64,18 @@ class SalaController {
 
     if(!sala) {
       return res.status(400).json({error: 'Sala não encontrada'});
+    }
+
+    const checandoSala = await Sala.findOne(
+      {
+        where: {
+          nome_sala: req.body.nome_sala
+        }
+      }
+    )
+
+    if(checandoSala) {
+      return res.status(400).json({error: 'O nome dessa sala já existe'});
     }
 
     await sala.update(req.body);
