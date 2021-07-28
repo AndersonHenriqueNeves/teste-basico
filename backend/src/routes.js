@@ -15,10 +15,12 @@ routes.post('/professores/store', ProfessorController.store);
 routes.get('/professores/index', ProfessorController.index);
 routes.put('/professores/update/:id', ProfessorController.update);
 routes.delete('/professores/delete/:id', ProfessorController.delete);
+routes.get('/professores/getNomeSalas', ProfessorController.getNomeSalas);
 
 routes.post('/alunos/store', AlunoController.store);
 routes.get('/alunos/index', AlunoController.index);
 routes.put('/alunos/update/:id', AlunoController.update);
 routes.delete('/alunos/delete/:id', AlunoController.delete);
+routes.get('/alunos/getNomeProfessores', AlunoController.getNomeProfessores);
 
 export default routes;

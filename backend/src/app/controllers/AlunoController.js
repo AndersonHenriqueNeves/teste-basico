@@ -56,6 +56,46 @@ class AlunoController {
     }
   }
 
+  async getNomeProfessores(req, res) {
+
+    const alunos = await Aluno.findAll({
+      order: [
+        'nome'
+      ],
+      include: [
+          {
+            model: Professor,
+            as: 'professor',
+            attributes: ['id', 'nome'],
+          },
+        ]
+    });
+
+    let arrAlunos = [];
+    let i;
+    let k;
+    let b;
+
+    for(i = 0; i < alunos.length; i++) {
+      if(arrAlunos.length > 0) {
+        for(k = 0; k < arrAlunos.length; k++) {
+          if(arrAlunos[k].id_professor == alunos[i].id_professor) {
+            b = "para";
+            break;
+          }
+          if(alunos[i].professor != null && b != "para") {
+            arrAlunos.push(alunos[i])
+          }
+        }
+      } else {
+        if(alunos[i].professor != null) {
+          arrAlunos.push(alunos[i])
+        }
+      }
+    }
+
+    return res.json(arrAlunos);
+  }
   async index(req, res) {
     const alunos = await Aluno.findAll({
         order: [

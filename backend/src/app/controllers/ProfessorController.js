@@ -73,6 +73,47 @@ class ProfessorController {
     return res.json(professores);
   }
 
+  async getNomeSalas(req, res) {
+
+    const professores = await Professor.findAll({
+        order: [
+          'nome'
+        ],
+        include: [
+            {
+              model: Sala,
+              as: 'sala',
+              attributes: ['id', 'nome_sala'],
+            },
+          ]
+      });
+
+    let arrProfessores = [];
+    let i;
+    let k;
+    let b;
+    let w = 1;
+    for(i = 0; i < professores.length; i++) {
+      if(arrProfessores.length > 0) {
+        for(k = w; k < arrProfessores.length; k++) {
+          if(arrProfessores[k].id_sala == professores[i].id_sala) {
+            b = "para";
+          }
+          if(professores[i].id_sala != null && b != "para") {
+            arrProfessores.push(professores[i])
+          }
+        }
+      } else {
+        if(professores[i].sala != null) {
+          arrProfessores.push(professores[i])
+        }
+      }
+      w = w + 1;
+    }
+
+    return res.json(arrProfessores);
+  }
+
   async delete(req, res) {
     const professor = await Professor.findByPk(req.params.id);
 
