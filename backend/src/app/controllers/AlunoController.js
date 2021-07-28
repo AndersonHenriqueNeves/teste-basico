@@ -71,30 +71,18 @@ class AlunoController {
         ]
     });
 
-    let arrAlunos = [];
-    let i;
-    let k;
-    let b;
-
-    for(i = 0; i < alunos.length; i++) {
-      if(arrAlunos.length > 0) {
-        for(k = 0; k < arrAlunos.length; k++) {
-          if(arrAlunos[k].id_professor == alunos[i].id_professor) {
-            b = "para";
-            break;
-          }
-          if(alunos[i].professor != null && b != "para") {
-            arrAlunos.push(alunos[i])
-          }
-        }
-      } else {
-        if(alunos[i].professor != null) {
-          arrAlunos.push(alunos[i])
+    let w = 0;
+    
+    for(var item = 0; item < alunos.length; item++) {
+      for(var cont = w; cont < alunos.length; cont++) {
+        if(alunos[item].id_professor === alunos[cont].id_professor) {
+          alunos.splice(cont, 1);
         }
       }
+      w = w + 1;
     }
 
-    return res.json(arrAlunos);
+    return res.json(alunos);
   }
   async index(req, res) {
     const alunos = await Aluno.findAll({

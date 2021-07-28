@@ -88,30 +88,18 @@ class ProfessorController {
           ]
       });
 
-    let arrProfessores = [];
-    let i;
-    let k;
-    let b;
-    let w = 1;
-    for(i = 0; i < professores.length; i++) {
-      if(arrProfessores.length > 0) {
-        for(k = w; k < arrProfessores.length; k++) {
-          if(arrProfessores[k].id_sala == professores[i].id_sala) {
-            b = "para";
-          }
-          if(professores[i].id_sala != null && b != "para") {
-            arrProfessores.push(professores[i])
+      let w = 0;
+    
+      for(var item = 0; item < professores.length; item++) {
+        for(var cont = w; cont < professores.length; cont++) {
+          if(professores[item].id_sala === professores[cont].id_sala) {
+            professores.splice(cont, 1);
           }
         }
-      } else {
-        if(professores[i].sala != null) {
-          arrProfessores.push(professores[i])
-        }
+        w = w + 1;
       }
-      w = w + 1;
-    }
 
-    return res.json(arrProfessores);
+    return res.json(professores);
   }
 
   async delete(req, res) {
