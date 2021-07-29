@@ -84,6 +84,28 @@ class AlunoController {
 
     return res.json(alunos);
   }
+
+  async getById(req, res) {
+    const aluno = await Aluno.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [
+        {
+          model: Professor,
+          as: 'professor',
+          attributes: ['id', 'nome'],
+        },
+      ]
+    })
+
+    if(!aluno) {
+      return res.status(400).json({ error: 'Aluno não encontrado' })
+    }
+
+    return res.json(aluno);
+  }
+
   async index(req, res) {
     const alunos = await Aluno.findAll({
         order: [

@@ -73,6 +73,27 @@ class ProfessorController {
     return res.json(professores);
   }
 
+  async getById(req, res) {
+    const professor = await Professor.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [
+        {
+          model: Sala,
+          as: 'sala',
+          attributes: ['id', 'nome_sala'],
+        },
+      ]
+    })
+
+    if(!professor) {
+      return res.status(400).json({ error: 'Professor não encontrado' })
+    }
+
+    return res.json(professor);
+  }
+
   async getNomeSalas(req, res) {
 
     const professores = await Professor.findAll({

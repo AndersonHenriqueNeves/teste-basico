@@ -10,14 +10,17 @@ routes.post('/salas/store', SalaController.store);
 routes.get('/salas/index', SalaController.index);
 routes.put('/salas/update/:id', SalaController.update);
 routes.delete('/salas/delete/:id', SalaController.delete);
+routes.get('/salas/getById/:id', SalaController.getById);
 
 routes.post('/professores/store', ProfessorController.store);
 routes.get('/professores/index', ProfessorController.index);
+routes.get('/professores/getById/:id', ProfessorController.getById);
 routes.put('/professores/update/:id', ProfessorController.update);
 routes.delete('/professores/delete/:id', ProfessorController.delete);
 routes.get('/professores/getNomeSalas', ProfessorController.getNomeSalas);
 
 routes.post('/alunos/store', AlunoController.store);
+routes.get('/alunos/getById/:id', AlunoController.getById);
 routes.get('/alunos/index', AlunoController.index);
 routes.put('/alunos/update/:id', AlunoController.update);
 routes.delete('/alunos/delete/:id', AlunoController.delete);

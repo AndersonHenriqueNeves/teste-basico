@@ -82,6 +82,16 @@ class SalaController {
 
     return res.status(200).send();
   }
+
+  async getById(req, res) {
+    const sala = await Sala.findOne({
+      where: {
+        id: req.params.id
+      }
+    })
+
+    return res.json(sala);
+  }
 };
 
 export default new SalaController();
